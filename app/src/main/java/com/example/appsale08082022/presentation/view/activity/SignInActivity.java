@@ -41,7 +41,7 @@ public class SignInActivity extends AppCompatActivity {
             public void onChanged(AppResource<User> userAppResource) {
                 switch (userAppResource.status) {
                     case ERROR:
-                        Toast.makeText(SignInActivity.this, userAppResource.message, Toast.LENGTH_SHORT).show();
+                        Log.d("BBB",  userAppResource.message);
                         break;
                     case LOADING:
                         break;
