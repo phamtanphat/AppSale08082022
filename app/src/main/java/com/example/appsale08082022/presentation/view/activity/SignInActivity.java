@@ -6,11 +6,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appsale08082022.R;
@@ -18,12 +26,14 @@ import com.example.appsale08082022.data.model.AppResource;
 import com.example.appsale08082022.data.model.User;
 import com.example.appsale08082022.databinding.ActivitySignInBinding;
 import com.example.appsale08082022.presentation.viewmodel.SignInViewModel;
+import com.example.appsale08082022.utils.SpannedUtil;
 
 public class SignInActivity extends AppCompatActivity {
 
     SignInViewModel signInViewModel;
     EditText edtEmail, edtPassword;
     LinearLayout linearSignIn, loadingView;
+    TextView tvRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         linearSignIn = findViewById(R.id.sign_in);
         edtEmail = findViewById(R.id.textEditEmail);
         edtPassword = findViewById(R.id.textEditPassword);
+        tvRegister = findViewById(R.id.text_view_register);
     }
 
     private void observer() {
@@ -71,7 +82,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void event() {
-
         linearSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,9 +93,19 @@ public class SignInActivity extends AppCompatActivity {
                     return;
                 }
                 signInViewModel.signIn(email, password);
-//                Toast.makeText(SignInActivity.this, "Click", Toast.LENGTH_SHORT).show();
             }
         });
 
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        spannableStringBuilder.append("Don't have an account?");
+        spannableStringBuilder.append(SpannedUtil.setClickColorLink("Register", this, new SpannedUtil.OnListenClick() {
+            @Override
+            public void onClick() {
+                startActivity(new Intent(SignInActivity.this, RegisterActivity.class));
+            }
+        }));
+        tvRegister.setText(spannableStringBuilder);
+        tvRegister.setHighlightColor(Color.TRANSPARENT);
+        tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
