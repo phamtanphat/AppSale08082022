@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.example.appsale08082022.R;
 import com.example.appsale08082022.data.model.AppResource;
 import com.example.appsale08082022.data.model.User;
-import com.example.appsale08082022.databinding.ActivitySignInBinding;
 import com.example.appsale08082022.presentation.viewmodel.SignInViewModel;
 import com.example.appsale08082022.utils.SpannedUtil;
 

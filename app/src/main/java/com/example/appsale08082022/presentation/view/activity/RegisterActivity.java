@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
