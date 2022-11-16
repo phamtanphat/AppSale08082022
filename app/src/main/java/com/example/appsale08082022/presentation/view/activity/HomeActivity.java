@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.appsale08082022.R;
 import com.example.appsale08082022.data.model.AppResource;
+import com.example.appsale08082022.data.model.Cart;
 import com.example.appsale08082022.data.model.Product;
 import com.example.appsale08082022.databinding.ActivityHomeBinding;
 import com.example.appsale08082022.presentation.view.adapter.ProductAdapter;
@@ -56,6 +57,9 @@ public class HomeActivity extends AppCompatActivity {
 
         // toolbar
         setSupportActionBar(homeBinding.toolbarHome);
+
+        // Call Api
+        homeViewModel.fetchCart();
         homeViewModel.fetchProducts();
     }
 
@@ -105,6 +109,28 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        homeViewModel.getCart().observe(this, new Observer<AppResource<Cart>>() {
+            @Override
+            public void onChanged(AppResource<Cart> cartAppResource) {
+                switch (cartAppResource.status) {
+                    case ERROR:
+                        homeBinding.layoutLoading.layoutLoading.setVisibility(View.GONE);
+                        Toast.makeText(HomeActivity.this, cartAppResource.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOADING:
+                        homeBinding.layoutLoading.layoutLoading.setVisibility(View.VISIBLE);
+                        break;
+                    case SUCCESS:
+                        homeBinding.layoutLoading.layoutLoading.setVisibility(View.GONE);
+                        int countBadge = 0;
+                        for (int i = 0; i < cartAppResource.data.getProducts().size(); i++) {
+                            countBadge += cartAppResource.data.getProducts().get(i).getQuantity();
+                        }
+                        setupBadge(countBadge);
+                        break;
+                }
+            }
+        });
     }
 
     private void observerData() {
