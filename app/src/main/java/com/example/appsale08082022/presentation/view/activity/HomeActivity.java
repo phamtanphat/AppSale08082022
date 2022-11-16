@@ -9,9 +9,13 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appsale08082022.R;
 import com.example.appsale08082022.data.model.AppResource;
 import com.example.appsale08082022.data.model.Product;
 import com.example.appsale08082022.databinding.ActivityHomeBinding;
@@ -25,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding homeBinding;
     ProductAdapter productAdapter;
     HomeViewModel homeViewModel;
+    TextView tvCountCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,32 @@ public class HomeActivity extends AppCompatActivity {
         // toolbar
         setSupportActionBar(homeBinding.toolbarHome);
         homeViewModel.fetchProducts();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        final MenuItem menuItem = menu.findItem(R.id.item_menu_cart);
+        View actionView = menuItem.getActionView();
+        tvCountCart = actionView.findViewById(R.id.text_cart_badge);
+        setupBadge(0);
+        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
+        return true;
+    }
+
+    private void setupBadge(int quantities) {
+        if (quantities == 0) {
+            tvCountCart.setVisibility(View.GONE);
+        } else {
+            tvCountCart.setVisibility(View.VISIBLE);
+            tvCountCart.setText(String.valueOf(Math.min(quantities, 99)));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void event() {
