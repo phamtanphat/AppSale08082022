@@ -85,6 +85,11 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_menu_cart:
+                startActivity(new Intent(HomeActivity.this, CartActivity.class));
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
