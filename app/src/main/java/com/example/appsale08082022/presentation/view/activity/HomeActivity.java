@@ -85,7 +85,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -129,6 +128,13 @@ public class HomeActivity extends AppCompatActivity {
                         setupBadge(countBadge);
                         break;
                 }
+            }
+        });
+
+        productAdapter.setOnItemClickFood(new ProductAdapter.OnItemClickProduct() {
+            @Override
+            public void onClick(int position) {
+                homeViewModel.addCart(productAdapter.getListProducts().get(position).getId());
             }
         });
     }

@@ -7,6 +7,8 @@ import com.example.appsale08082022.data.remote.ApiService;
 import com.example.appsale08082022.data.remote.RetrofitClient;
 import com.example.appsale08082022.data.remote.dto.CartDTO;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 
 /**
@@ -21,5 +23,11 @@ public class CartRepository {
 
     public Call<AppResource<CartDTO>> fetchCart() {
         return apiService.getCart();
+    }
+
+    public Call<AppResource<CartDTO>> addCart(String idProduct) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id_product", idProduct);
+        return apiService.addCart(map);
     }
 }
